@@ -1,0 +1,769 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Voting Portal 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --accent: #fdbb2d;
+            --light: rgba(255, 255, 255, 0.9);
+            --dark: #121212;
+            --card-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 5px;
+        }
+
+        .logo h2 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .divider {
+            height: 2px;
+            width: 80%;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 20px auto;
+        }
+
+        .category-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .category-title i {
+            color: var(--accent);
+        }
+
+        .dropdown-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .dropdown-btn {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .dropdown-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(30, 30, 40, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            margin-top: 5px;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .dropdown-list.active {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        .dropdown-item {
+            padding: 15px 20px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 25px;
+        }
+
+        .dropdown-item i {
+            width: 20px;
+            color: var(--accent);
+        }
+
+        .selected-category {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            min-height: 30px;
+            color: var(--accent);
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .contestants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .contestant-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contestant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .contestant-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contestant-info {
+            padding: 20px;
+        }
+
+        .contestant-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--light);
+        }
+
+        .contestant-description {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .vote-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .vote-count i {
+            color: var(--accent);
+        }
+
+        .vote-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .vote-btn:hover {
+            background: linear-gradient(to right, #ffcc44, #c62828);
+            transform: translateY(-2px);
+        }
+
+        .vote-btn:active {
+            transform: translateY(1px);
+        }
+
+        .proceed-btn {
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(178, 31, 31, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .proceed-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(178, 31, 31, 0.6);
+        }
+
+        .proceed-btn:active {
+            transform: translateY(1px);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .payment-details {
+            margin-bottom: 25px;
+        }
+
+        .payment-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .payment-amount {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .paystack-btn {
+            width: 100%;
+            padding: 15px;
+            background: #00a859;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .paystack-btn:hover {
+            background: #008f4c;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .logo h1 {
+                font-size: 2rem;
+            }
+            
+            .logo h2 {
+                font-size: 1.5rem;
+            }
+            
+            .category-section {
+                padding: 20px 15px;
+            }
+            
+            .dropdown-btn {
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+            
+            .dropdown-item {
+                padding: 12px 15px;
+            }
+            
+            .contestants-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            .contestant-image {
+                height: 200px;
+            }
+            
+            .proceed-btn {
+                padding: 12px 30px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+            
+            .logo h2 {
+                font-size: 1.3rem;
+            }
+            
+            .category-title {
+                font-size: 1.3rem;
+            }
+            
+            .contestants-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>Welcome To</h1>
+                <h2>Our Category Portal 2025</h2>
+            </div>
+        </header>
+        
+        <div class="divider"></div>
+        
+        <div class="category-section">
+            <div class="category-title">
+                <i class="fas fa-trophy"></i>
+                <span>BEST PHOTOGENIC OF THE YEAR</span>
+                <i class="fas fa-camera"></i>
+            </div>
+            
+            <div class="dropdown-container">
+                <button class="dropdown-btn" id="dropdownBtn">
+                    <span>Select a Category</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-list" id="dropdownList">
+                    <div class="dropdown-item" data-value="FAMOUS">
+                        <i class="fas fa-user"></i>
+                        <span>MOST FAMOUS STUDENT</span>
+                    </div>
+                    <div class="dropdown-item" data-value="KICKS">
+                        <i class="fas fa-mountain"></i>
+                        <span>PRESSUR KING</span>
+                    </div>
+                    <div class="dropdown-item" data-value="QUEEN">
+                        <i class="fas fa-paw"></i>
+                        <span>PRESSURE QUEEN</span>
+                    </div>
+                    <div class="dropdown-item" data-value="CAMERA">
+                        <i class="fas fa-city"></i>
+                        <span>PHOTOGENEIC</span>
+                    </div>
+                    <div class="dropdown-item" data-value="BAD">
+                        <i class="fas fa-tshirt"></i>
+                        <span>SEXIEST GIRL</span>
+                    </div>
+                    <div class="dropdown-item" data-value="KING">
+                        <i class="fas fa-search"></i>
+                        <span>BEST CLASS PREFECT BOYS</span>
+                    </div>
+                    <div class="dropdown-item" data-value="PREFECT">
+                        <i class="fas fa-running"></i>
+                        <span>BEST CLASS PREFECT GIRLS</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="selected-category" id="selectedCategory"></div>
+            
+            <div class="contestants-section hidden" id="contestantsSection">
+                <div class="contestants-grid" id="contestantsGrid">
+                    <!-- Contestants will be dynamically added here -->
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button class="proceed-btn hidden" id="proceedBtn">
+                    <span>PROCEED TO VOTE</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 Category Portal. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Complete Your Vote</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="payment-details">
+                <div class="payment-info">
+                    <span>Contestant:</span>
+                    <span id="modalContestantName">-</span>
+                </div>
+                <div class="payment-info">
+                    <span>Category:</span>
+                    <span id="modalCategoryName">-</span>
+                </div>
+                <div class="payment-amount">
+                    Voting Fee: GHS 0.10
+                </div>
+                <p>Complete your payment to cast your vote. Each vote costs GHS 0.10.</p>
+            </div>
+            <button class="paystack-btn" id="paystackBtn">
+                <i class="fas fa-credit-card"></i>
+                <span>Pay with Paystack</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Sample contestant data with vote counts set to 0
+        const contestantsData = {
+            FAMOUS: [
+                { id: 1, name: "Alex Johnson", votes: 0, image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Specializes in emotional portrait photography that captures the soul." },
+                { id: 2, name: "Maria Garcia", votes: 0, image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Known for her creative use of lighting and shadows in portraits." },
+                { id: 3, name: "Samuel Lee", votes: 0, image: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Focuses on environmental portraits that tell a story." }
+            ],
+            KICKS: [
+                { id: 1, name: "David Wilson", votes: 0, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Captures breathtaking landscapes from around the world." },
+                { id: 2, name: "Emma Thompson", votes: 0, image: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Specializes in mountain and forest landscape photography." },
+                { id: 3, name: "Robert Chen", votes: 0, image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Master of capturing the golden hour in natural landscapes." }
+            ],
+            QUEEN: [
+                { id: 1, name: "James Anderson", votes: 0, image: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Documents wildlife in their natural habitats with precision." },
+                { id: 2, name: "Sophia Martinez", votes: 0, image: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Focuses on bird photography with incredible detail." },
+                { id: 3, name: "Michael Brown", votes: 0, image: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Specializes in African wildlife photography." }
+            ],
+            CAMERA: [
+                { id: 1, name: "Olivia Davis", votes: 0, image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Captures the raw energy of urban life in her street photography." },
+                { id: 2, name: "William Taylor", votes: 0, image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Known for his black and white street photography." },
+                { id: 3, name: "Isabella Clark", votes: 0, image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Focuses on candid moments in urban environments." }
+            ],
+            BAD: [
+                { id: 1, name: "Ethan Moore", votes: 0, image: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Creates stunning fashion editorials for top magazines." },
+                { id: 2, name: "Ava Harris", votes: 0, image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Specializes in high-fashion conceptual photography." },
+                { id: 3, name: "Noah Martin", votes: 0, image: "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Known for his innovative use of color in fashion photography." }
+            ],
+            KING: [
+                { id: 1, name: "Liam Wilson", votes: 0, image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Excellent leadership skills and academic performance." },
+                { id: 2, name: "Noah Brown", votes: 0, image: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Known for his discipline and organizational skills." }
+            ],
+            PREFECT: [
+                { id: 1, name: "Emma Johnson", votes: 0, image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Outstanding academic record and leadership qualities." },
+                { id: 2, name: "Olivia Davis", votes: 0, image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80", description: "Excellent communication and problem-solving skills." }
+            ]
+        };
+
+        // Category names mapping - UPDATED to match your dropdown
+        const categoryNames = {
+            FAMOUS: "MOST FAMOUS STUDENT",
+            KICKS: "PRESSUR KING",
+            QUEEN: "PRESSURE QUEEN",
+            CAMERA: "PHOTOGENEIC",
+            BAD: "SEXIEST GIRL",
+            KING: "BEST CLASS PREFECT BOYS",
+            PREFECT: "BEST CLASS PREFECT GIRLS"
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownBtn = document.getElementById('dropdownBtn');
+            const dropdownList = document.getElementById('dropdownList');
+            const selectedCategory = document.getElementById('selectedCategory');
+            const proceedBtn = document.getElementById('proceedBtn');
+            const contestantsSection = document.getElementById('contestantsSection');
+            const contestantsGrid = document.getElementById('contestantsGrid');
+            const paymentModal = document.getElementById('paymentModal');
+            const closeModal = document.getElementById('closeModal');
+            const paystackBtn = document.getElementById('paystackBtn');
+            const modalContestantName = document.getElementById('modalContestantName');
+            const modalCategoryName = document.getElementById('modalCategoryName');
+            const dropdownItems = document.querySelectorAll('.dropdown-item');
+            const chevronIcon = dropdownBtn.querySelector('i');
+            
+            let selectedCategoryValue = '';
+            let selectedContestant = null;
+            
+            // Toggle dropdown
+            dropdownBtn.addEventListener('click', function() {
+                dropdownList.classList.toggle('active');
+                chevronIcon.style.transform = dropdownList.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0)';
+            });
+            
+            // Select category
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    const text = this.querySelector('span').textContent;
+                    
+                    selectedCategoryValue = value;
+                    dropdownBtn.querySelector('span').textContent = text;
+                    selectedCategory.textContent = `Selected: ${text}`;
+                    
+                    // Show contestants for selected category
+                    displayContestants(value);
+                    
+                    // Show proceed button and contestants section
+                    proceedBtn.classList.remove('hidden');
+                    contestantsSection.classList.remove('hidden');
+                    
+                    dropdownList.classList.remove('active');
+                    chevronIcon.style.transform = 'rotate(0)';
+                });
+            });
+            
+            // Display contestants for a category
+            function displayContestants(category) {
+                contestantsGrid.innerHTML = '';
+                
+                if (contestantsData[category]) {
+                    contestantsData[category].forEach(contestant => {
+                        const card = document.createElement('div');
+                        card.className = 'contestant-card';
+                        card.innerHTML = `
+                            <img src="${contestant.image}" alt="${contestant.name}" class="contestant-image">
+                            <div class="contestant-info">
+                                <h3 class="contestant-name">${contestant.name}</h3>
+                                <p class="contestant-description">${contestant.description}</p>
+                                <div class="vote-count">
+                                    <i class="fas fa-heart"></i>
+                                    <span>${contestant.votes} votes</span>
+                                </div>
+                                <button class="vote-btn" data-id="${contestant.id}">
+                                    <i class="fas fa-vote-yea"></i>
+                                    Vote Now
+                                </button>
+                            </div>
+                        `;
+                        contestantsGrid.appendChild(card);
+                    });
+                    
+                    // Add event listeners to vote buttons
+                    document.querySelectorAll('.vote-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const contestantId = parseInt(this.getAttribute('data-id'));
+                            selectedContestant = contestantsData[category].find(c => c.id === contestantId);
+                            openPaymentModal(selectedContestant, category);
+                        });
+                    });
+                } else {
+                    contestantsGrid.innerHTML = '<p>No contestants available for this category yet.</p>';
+                }
+            }
+            
+            // Open payment modal
+            function openPaymentModal(contestant, category) {
+                modalContestantName.textContent = contestant.name;
+                modalCategoryName.textContent = categoryNames[category];
+                paymentModal.classList.add('active');
+            }
+            
+            // Close payment modal
+            closeModal.addEventListener('click', function() {
+                paymentModal.classList.remove('active');
+            });
+            
+            // Pay with Paystack
+            paystackBtn.addEventListener('click', function() {
+                // Use test key for development
+                const paystackPublicKey = 'pk_live_6fe1f1cfd0d04104c4cd4ac4c7d822511de1009d'; // Replace with your actual test key
+                
+                const handler = PaystackPop.setup({
+                    key: paystackPublicKey,
+                    email: 'voter@example.com', // This would be collected from the user in a real app
+                    amount: 10, // Amount in pesewas (GHS 1 = 100 pesewas)
+                    currency: 'GHS',
+                    ref: 'VOTE_' + Math.floor((Math.random() * 1000000000) + 1),
+                    metadata: {
+                        custom_fields: [
+                            {
+                                display_name: "Contestant",
+                                variable_name: "contestant",
+                                value: selectedContestant.name
+                            },
+                            {
+                                display_name: "Category",
+                                variable_name: "category",
+                                value: categoryNames[selectedCategoryValue]
+                            }
+                        ]
+                    },
+                    callback: function(response) {
+                        // Payment was successful
+                        alert('Vote successfully cast for ' + selectedContestant.name + '! Thank you for voting.');
+                        paymentModal.classList.remove('active');
+                        
+                        // In a real app, you would send this to your backend to record the vote
+                        console.log('Payment reference: ' + response.reference);
+                        
+                        // Update vote count locally (in a real app, this would come from the server)
+                        selectedContestant.votes += 1;
+                        displayContestants(selectedCategoryValue);
+                    },
+                    onClose: function() {
+                        alert('Payment was not completed. Vote was not cast.');
+                    }
+                });
+                handler.openIframe();
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === paymentModal) {
+                    paymentModal.classList.remove('active');
+                }
+                
+                if (!dropdownBtn.contains(event.target) && !dropdownList.contains(event.target)) {
+                    dropdownList.classList.remove('active');
+                    chevronIcon.style.transform = 'rotate(0)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+ 
